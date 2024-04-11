@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import "./Styles.css";
 
 export const LoadMoreData = () => {
 	const [loading, setLoading] = useState(false);
@@ -13,9 +14,11 @@ export const LoadMoreData = () => {
 					count === 0 ? 0 : count * 20
 				}`
 			);
+
 			const result = await response.json();
-			if (result && result.products && result.products.setLength) {
-				setProducts(result.products);
+
+			if (result && result.products && result.products.length) {
+				setProducts((prevData) => [...prevData, ...result.products]);
 				setLoading(false);
 			}
 		} catch (e) {
@@ -26,12 +29,12 @@ export const LoadMoreData = () => {
 
 	useEffect(() => {
 		fetchProducts();
-	}, []);
+	}, [count]);
 	if (loading) {
 		return <div>Loading data! please wait.</div>;
 	}
 	return (
-		<div className="container">
+		<div className="load-more-container">
 			<div className="product-container">
 				{products && products.length
 					? products.map((item) => (
@@ -43,7 +46,7 @@ export const LoadMoreData = () => {
 					: null}
 			</div>
 			<div className="button-container">
-				<button>Load more products</button>
+				<button onClick={() => setCount(count + 1)}>Load more products</button>
 			</div>
 		</div>
 	);
