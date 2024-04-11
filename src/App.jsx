@@ -1,5 +1,5 @@
 import "./App.css";
-import { LoadMoreData } from "./Components";
+import { LoadMoreData } from "./Components/Index";
 
 function App() {
 	return (
